@@ -11,8 +11,8 @@ import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
 
 // Interfaces
-import { CreateChatDto } from './dto/create-chat.dto';
-import { UpdateChatDto } from './dto/update-chat.dto';
+import { CreateMessageDto } from './dto/create-message.dto';
+import { UpdateMessageDto } from './dto/update-message.dto';
 import { JoinedUserDto } from './dto/joined-user.dto';
 
 // Constants
@@ -51,23 +51,32 @@ export class ChatGateway {
     return this.chatService.isTyping(username, socket);
   }
 
-  @SubscribeMessage(SubscribedMessages.CREATE_CHAT)
-  create(@MessageBody() createChatDto: CreateChatDto) {
-    return this.chatService.create(createChatDto);
+  @SubscribeMessage(SubscribedMessages.SEND_MESSAGE)
+  sendMessage(
+    @MessageBody() createMessageDto: CreateMessageDto,
+    @ConnectedSocket() socket: Socket,
+  ) {
+    return this.chatService.sendMessage(createMessageDto, socket);
   }
 
   @SubscribeMessage(SubscribedMessages.FIND_ALL_CHATS)
-  findAll() {
-    return this.chatService.findAll();
+  findAllMessages() {
+    return this.chatService.findAllMessages();
   }
 
-  @SubscribeMessage(SubscribedMessages.UPDATE_CHAT)
-  update(@MessageBody() updateChatDto: UpdateChatDto) {
-    return this.chatService.update(updateChatDto.id, updateChatDto);
+  @SubscribeMessage(SubscribedMessages.UPDATE_MESSAGE)
+  updateMessage(
+    @MessageBody() updateMessageDto: UpdateMessageDto,
+    @ConnectedSocket() socket: Socket,
+  ) {
+    return this.chatService.updateMessage(updateMessageDto, socket);
   }
 
-  @SubscribeMessage(SubscribedMessages.REMOVE_CHAT)
-  remove(@MessageBody() id: number) {
-    return this.chatService.remove(id);
+  @SubscribeMessage(SubscribedMessages.REMOVE_MESSAGE)
+  removeMessage(
+    @MessageBody() messageId: string,
+    @ConnectedSocket() socket: Socket,
+  ) {
+    return this.chatService.removeMessage(messageId, socket);
   }
 }

@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { WebSocketServer } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
+import { Socket } from 'socket.io';
+import { v4 as uuidv4 } from 'uuid';
 
 // Interfaces
-import { CreateChatDto } from './dto/create-chat.dto';
-import { UpdateChatDto } from './dto/update-chat.dto';
+import { Message } from './entities/message.entity';
+import { CreateMessageDto } from './dto/create-message.dto';
+import { UpdateMessageDto } from './dto/update-message.dto';
 import { JoinedUserDto } from './dto/joined-user.dto';
 
 // Constants
@@ -13,6 +14,7 @@ import { ServerEvents } from 'src/constants/chat.constant';
 @Injectable()
 export class ChatService {
   onlineUsers: JoinedUserDto[] = [];
+  messeges: Message[] = [];
 
   joinChat(username: string, socket: Socket) {
     // Create the joinedUser instance with necessary data
@@ -54,19 +56,61 @@ export class ChatService {
     });
   }
 
-  create(createChatDto: CreateChatDto) {
-    return 'This action adds a new chat';
+  sendMessage(createMessageDto: CreateMessageDto, socket: Socket) {
+    // Create the message instance with necessary data
+    const newMessage: Message = {
+      id: uuidv4(),
+      sender: {
+        id: socket.id,
+        username: createMessageDto.sender,
+      },
+      type: 'TEXT',
+      content: createMessageDto.content,
+      sentAt: new Date().toISOString(),
+    };
+
+    // Add newMessage to DB
+    this.messeges.push(newMessage);
+
+    // Broadcast to other clients that a new message has been sent
+    socket.broadcast.emit(ServerEvents.MESSAGE_SENT, {
+      newMessage,
+    });
   }
 
-  findAll() {
-    return `This action returns all chat`;
+  findAllMessages() {
+    // Fetch all messages
+    return this.messeges;
   }
 
-  update(id: number, updateChatDto: UpdateChatDto) {
-    return `This action updates a #${id} chat`;
+  updateMessage(updateMessageDto: UpdateMessageDto, socket: Socket) {
+    // Update the requested message
+    this.messeges = this.messeges.map((message) => {
+      if (message.id === updateMessageDto.id) {
+        if (updateMessageDto.type) {
+          message.type = updateMessageDto.type;
+        }
+        if (updateMessageDto.content) {
+          message.content = updateMessageDto.content;
+        }
+      }
+
+      return message;
+    });
+
+    // Broadcast to other clients that a message has been updated
+    socket.broadcast.emit(ServerEvents.MESSAGE_UPDATED, {
+      messeges: this.messeges,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} chat`;
+  removeMessage(messageId: string, socket: Socket) {
+    // Delete the requested message
+    this.messeges = this.messeges.filter((message) => message.id !== messageId);
+
+    // Broadcast to other clients that a message has been deleted
+    socket.broadcast.emit(ServerEvents.MESSAGE_REMOVED, {
+      messeges: this.messeges,
+    });
   }
 }

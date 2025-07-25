@@ -31,7 +31,6 @@ export class ChatService {
     socket.broadcast.emit(ServerEvents.USER_JOINED, {
       joinedUser,
       message: `${joinedUser.username} joined!`,
-      type: ServerEvents.USER_JOINED,
       onlineUsers: this.onlineUsers,
     });
   }
@@ -43,7 +42,6 @@ export class ChatService {
     // Broadcast to other clients that an user left
     socket.broadcast.emit(ServerEvents.USER_LEFT, {
       message: `${username} left!`,
-      type: ServerEvents.USER_LEFT,
       onlineUsers: this.onlineUsers,
     });
   }
@@ -52,7 +50,6 @@ export class ChatService {
     // Broadcast to other clients that an user is typing
     socket.broadcast.emit(ServerEvents.IS_TYPING, {
       message: `${username} is typing!`,
-      type: ServerEvents.IS_TYPING,
     });
   }
 

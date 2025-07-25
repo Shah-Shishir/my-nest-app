@@ -13,10 +13,9 @@ import { ChatService } from './chat.service';
 // Interfaces
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
-import { JoinedUserDto } from './dto/joined-user.dto';
 
 // Constants
-import { SubscribedMessages, ServerEvents } from 'src/constants/chat.constant';
+import { SubscribedMessages } from 'src/constants/chat.constant';
 import { Config } from 'src/constants/config';
 
 @WebSocketGateway(Config.CHAT_GATEWAY_PORT, {

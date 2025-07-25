@@ -24,7 +24,7 @@ export class ChatService {
       joinedAt: new Date().toISOString(),
     };
 
-    // Add that user to the connectedUser Record
+    // Add that user to the onlineUsers list
     this.onlineUsers.push(joinedUser);
 
     // Broadcast to other clients that a new user joined

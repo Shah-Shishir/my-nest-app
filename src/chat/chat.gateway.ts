@@ -16,16 +16,12 @@ import { UpdateMessageDto } from './dto/update-message.dto';
 import { JoinedUserDto } from './dto/joined-user.dto';
 
 // Constants
-import {
-  Config,
-  SubscribedMessages,
-  ServerEvents,
-} from 'src/constants/chat.constant';
-import { CommonConstant } from 'src/constants/common.constant';
+import { SubscribedMessages, ServerEvents } from 'src/constants/chat.constant';
+import { Config } from 'src/constants/config';
 
-@WebSocketGateway(Config.PORT, {
+@WebSocketGateway(Config.CHAT_GATEWAY_PORT, {
   cors: {
-    origin: CommonConstant.CLIENT_BASE_URL,
+    origin: Config.CLIENT_BASE_URL,
   },
 })
 export class ChatGateway {

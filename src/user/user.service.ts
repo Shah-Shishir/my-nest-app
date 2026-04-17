@@ -11,8 +11,11 @@ export class UserService {
     const newUser: User = {
       id: this.users.length + 1,
       username: createUserDto.username,
-      createdAt: new Date()
-    }
+      createdAt: new Date(),
+    };
+
+    this.users.push(newUser);
+    return newUser;
   }
 
   findAll() {
@@ -20,37 +23,34 @@ export class UserService {
   }
 
   findOne(id: number) {
-    const foundUser = this.users.find((user) => id === +user.id);
+    const foundUser = this.users.find((user) => id === user.id);
 
     if (!foundUser) {
-      return new NotFoundException();
+      throw new NotFoundException('User not found');
     }
 
     return foundUser;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    const foundUser = this.users.find((user) => id === +user.id);
+    const foundUser = this.users.find((user) => id === user.id);
 
     if (!foundUser) {
-      return new NotFoundException();
+      throw new NotFoundException('User not found');
     }
 
-    return {
-      ...foundUser,
-      username: updateUserDto.username,
-      message: 'User has been updated successfully',
-    };
+    Object.assign(foundUser, updateUserDto);
+    return foundUser;
   }
 
   remove(id: number) {
-    const foundUser = this.users.find((user) => id === +user.id);
+    const foundUser = this.users.find((user) => id === user.id);
 
     if (!foundUser) {
       return new NotFoundException();
     }
 
-    this.users = this.users.filter((user) => id === +user.id);
+    this.users = this.users.filter((user) => id !== user.id);
 
     return {
       message: 'User has been deleted successfully',

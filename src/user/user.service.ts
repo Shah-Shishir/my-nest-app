@@ -18,7 +18,16 @@ export class UserService {
     return newUser;
   }
 
-  findAll() {
+  findAll(username: string) {
+    if (username) {
+      return this.users.filter((user) =>
+        user.username
+          .trim()
+          .toLowerCase()
+          .includes(username.trim().toLowerCase()),
+      );
+    }
+
     return this.users;
   }
 

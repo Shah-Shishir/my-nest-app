@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TenantModule } from './tenant/tenant.module';
-import { BranchModule } from './category/branch/branch.module';
+import { BranchModule } from './branch/branch.module';
 import { CategoryModule } from './category/category.module';
 import { MealCourseModule } from './meal-course/meal-course.module';
 import { QuickAccessModule } from './quick-access/quick-access.module';

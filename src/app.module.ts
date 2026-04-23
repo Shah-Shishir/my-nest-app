@@ -14,10 +14,11 @@ import { PaymentModule } from './payment/payment.module';
 import { OrderModule } from './order/order.module';
 import { CartModule } from './cart/cart.module';
 import { SubscriptionModule } from './subscription/subscription.module';
+import { NavigationModule } from './navigation/navigation.module';
 import config from '../orm-config';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(config), UserModule, TenantModule, BranchModule, CategoryModule, MealCourseModule, QuickAccessModule, TaxModule, FoodItemModule, PaymentModule, OrderModule, CartModule, SubscriptionModule],
+  imports: [TypeOrmModule.forRoot(config), UserModule, TenantModule, BranchModule, CategoryModule, MealCourseModule, QuickAccessModule, TaxModule, FoodItemModule, PaymentModule, OrderModule, CartModule, SubscriptionModule, NavigationModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -11,10 +11,11 @@ import { QuickAccessModule } from './quick-access/quick-access.module';
 import { TaxModule } from './tax/tax.module';
 import { FoodItemModule } from './food-item/food-item.module';
 import { PaymentModule } from './payment/payment.module';
+import { OrderModule } from './order/order.module';
 import config from '../orm-config';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(config), UserModule, TenantModule, BranchModule, CategoryModule, MealCourseModule, QuickAccessModule, TaxModule, FoodItemModule, PaymentModule],
+  imports: [TypeOrmModule.forRoot(config), UserModule, TenantModule, BranchModule, CategoryModule, MealCourseModule, QuickAccessModule, TaxModule, FoodItemModule, PaymentModule, OrderModule],
   controllers: [AppController],
   providers: [AppService],
 })

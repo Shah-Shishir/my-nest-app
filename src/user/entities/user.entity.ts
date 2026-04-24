@@ -11,17 +11,17 @@ import {
 export class User {
   @PrimaryGeneratedColumn()
   @ApiProperty()
-  id!: number;
+  id: number;
 
   @Column()
   @ApiProperty()
-  username!: string;
+  username: string;
 
   @CreateDateColumn({ type: 'timestamptz' })
   @ApiProperty()
-  createdAt!: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ type: 'timestamptz' })
   @ApiProperty()
-  updatedAt!: Date;
+  updatedAt: Date;
 }

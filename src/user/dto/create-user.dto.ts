@@ -7,7 +7,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @MinLength(3)
   @MaxLength(10)
-  username!: string;
+  username: string;
 
 //   @ApiProperty({ required: false })
 //   age?: number;

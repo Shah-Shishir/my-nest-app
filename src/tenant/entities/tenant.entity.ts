@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Length } from 'class-validator';
 import { Branch } from 'src/branch/entities/branch.entity';
 import { MealCourse } from 'src/meal-course/entities/meal-course.entity';
 import { Navigation } from 'src/navigation/entities/navigation.entity';
@@ -8,20 +7,21 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
+@Index(['name'], { unique: true })
 export class Tenant {
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ApiProperty()
-  @Column()
-  @Length(3, 10)
+  @Column({ nullable: false })
   name: string;
 
   @ApiProperty()
@@ -42,11 +42,9 @@ export class Tenant {
 
   @ApiProperty()
   @CreateDateColumn({ type: 'timestamptz' })
-  @ApiProperty()
   createdAt: string;
 
   @ApiProperty()
   @UpdateDateColumn({ type: 'timestamptz' })
-  @ApiProperty()
   updatedAt: string;
 }

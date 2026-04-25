@@ -18,7 +18,22 @@ import { NavigationModule } from './navigation/navigation.module';
 import config from '../orm-config';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(config), UserModule, TenantModule, BranchModule, CategoryModule, MealCourseModule, QuickAccessModule, TaxModule, FoodItemModule, PaymentModule, OrderModule, CartModule, SubscriptionModule, NavigationModule],
+  imports: [
+    TypeOrmModule.forRoot(config),
+    UserModule,
+    TenantModule,
+    BranchModule,
+    CategoryModule,
+    MealCourseModule,
+    QuickAccessModule,
+    TaxModule,
+    FoodItemModule,
+    PaymentModule,
+    OrderModule,
+    CartModule,
+    SubscriptionModule,
+    NavigationModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -6,12 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { TenantService } from './tenant.service';
 import { CreateTenantDto } from './dto/create-tenant.dto';
 import { UpdateTenantDto } from './dto/update-tenant.dto';
 import { Tenant } from './entities/tenant.entity';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
+import { TenantQueryDto } from './dto/tenant-query.dto';
+import { PaginatedTenantResponseDto } from './dto/paginated-tenant-response.dto';
 
 @Controller('tenants')
 export class TenantController {
@@ -23,10 +26,10 @@ export class TenantController {
     return this.tenantService.create(createTenantDto);
   }
 
-  @ApiOkResponse({ type: Tenant, isArray: true })
+  @ApiOkResponse({ type: PaginatedTenantResponseDto })
   @Get()
-  findAll() {
-    return this.tenantService.findAll();
+  findAll(@Query() query: TenantQueryDto) {
+    return this.tenantService.findAll(query);
   }
 
   @ApiOkResponse({ type: Tenant })
